@@ -8,30 +8,59 @@ const Tab = createBottomTabNavigator()
 
 export default function App () {
   return (
-    <GestureHandlerRootView style={{ flex: 1 }}>
+    <GestureHandlerRootView style={{flex: 1}}>
       <NavigationContainer>
         <Tab.Navigator
-          screenOptions={({route}) => ({
-            tabBarIcon: ({focused, color, size}) => {
-              let iconName
-
-              if (route.name === 'Home') {
-                iconName = focused ? 'home' : 'home-outline'
-              } else if (route.name === 'Settings') {
-                iconName = focused ? 'settings' : 'settings-outline'
-              }
-
-              return <Icon name={iconName} size={size} color={color} />
-            },
-          })}
-          tabBarOptions={{
-            activeTintColor: 'tomato',
-
-            inactiveTintColor: 'gray',
+          screenOptions={{
+            tabBarActiveTintColor: 'teal',
+            tabBarInactiveTintColor: 'gray',
+            tabBarStyle: [
+              {
+                display: 'flex',
+              },
+              null,
+            ],
           }}>
-          <Tab.Screen name='Home' component={Home} />
+          <Tab.Screen
+            options={{
+              tabBarIcon: ({focused, color, size}) => (
+                <Icon
+                  name={focused ? 'home' : 'home-outline'}
+                  color={color}
+                  size={size}
+                />
+              ),
+            }}
+            name='Home'
+            component={Home}
+          />
+          <Tab.Screen
+            options={{
+              tabBarIcon: ({focused, color, size}) => (
+                <Icon
+                  name={focused ? 'settings' : 'settings-outline'}
+                  color={color}
+                  size={size}
+                />
+              ),
+            }}
+            name='Settings'
+            component={Settings}
+          />
 
-          <Tab.Screen name='Settings' component={Settings} />
+          <Tab.Screen
+            options={{
+              tabBarIcon: ({focused, color, size}) => (
+                <Icon
+                  name={focused ? 'person' : 'person-outline'}
+                  color={color}
+                  size={size}
+                />
+              ),
+            }}
+            name='Profile'
+            component={Profile}
+          />
         </Tab.Navigator>
       </NavigationContainer>
     </GestureHandlerRootView>
