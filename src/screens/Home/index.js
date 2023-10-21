@@ -86,6 +86,25 @@ const Home = () => {
             //   textSectionTitleColor: '#0D1B1E',
             //   selectedDayBackgroundColor: '#7798AB',
           }}
+          dayComponent={({date, state}) => {
+            return (
+              <View
+                style={{
+                  borderColor: '#333',
+                  borderWidth: 1,
+                  marginBottom: 10,
+                  padding: 4,
+                }}>
+                <Text
+                  style={{
+                    textAlign: 'center',
+                    color: state === 'disabled' ? 'gray' : 'black',
+                  }}>
+                  {date.day}
+                </Text>
+              </View>
+            )
+          }}
         />
         {/* <WeekCalendar
         theme={{
