@@ -3,6 +3,7 @@ import {createBottomTabNavigator} from '@react-navigation/bottom-tabs'
 import {View, Text} from 'react-native'
 import Icon from 'react-native-vector-icons/Ionicons'
 import {GestureHandlerRootView} from 'react-native-gesture-handler'
+import Home from './src/screens/Home'
 
 const Tab = createBottomTabNavigator()
 
@@ -64,14 +65,6 @@ export default function App () {
         </Tab.Navigator>
       </NavigationContainer>
     </GestureHandlerRootView>
-  )
-}
-
-function Home () {
-  return (
-    <View style={{flex: 1}}>
-      <Text>Home</Text>
-    </View>
   )
 }
 
