@@ -13,7 +13,7 @@ const Tab = createBottomTabNavigator()
 
 function HomeTabs () {
   return (
-    <Tab.Navigator initialRouteName={'home'}>
+    <Tab.Navigator initialRouteName={'home'} tabBar={props => <TabBar {...props} />}>
       <Tab.Screen
         options={{headerShown: false}}
         name='home'
