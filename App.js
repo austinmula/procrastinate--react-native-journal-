@@ -6,7 +6,7 @@ import {NavigationContainer} from '@react-navigation/native'
 import HomeScreen from './src/screens/home/home'
 import SettingScreen from './src/screens/home/settings'
 import CalendarScreen from './src/screens/home/calendar'
-import NotesScreen from './src/screens/home/notes'
+import GoalsScreen from './src/screens/home/targets'
 import TabBar from './src/components/common/TabBar'
 
 const Tab = createBottomTabNavigator()
@@ -28,8 +28,8 @@ function HomeTabs () {
       />
       <Tab.Screen
         options={{headerShown: false}}
-        name='notes'
-        component={NotesScreen}
+        name='time'
+        component={GoalsScreen}
       />
       <Tab.Screen
         options={{headerShown: false}}
