@@ -74,7 +74,7 @@ const styles = StyleSheet.create({
     bottom: 25,
     backgroundColor: '#182028',
     borderRadius: 25,
-    marginHorizontal: width * 0.1,
+    marginHorizontal: width * 0.05,
   },
   mainItemContainer: {
     flex: 1,
