@@ -52,7 +52,7 @@ const TabBar = ({state, descriptors, navigation}: any) => {
                   padding: 15,
                 }}>
                 <Icon
-                  name={'home'}
+                  name={label}
                   color="white"
                   size={18}
                   route={label}
