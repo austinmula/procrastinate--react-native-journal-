@@ -1,85 +1,37 @@
-import {NavigationContainer} from '@react-navigation/native'
-import {createBottomTabNavigator} from '@react-navigation/bottom-tabs'
-import {View, Text} from 'react-native'
-import Icon from 'react-native-vector-icons/Ionicons'
-import {GestureHandlerRootView} from 'react-native-gesture-handler'
-import Home from './src/screens/Home'
+import React from 'react';
+import {createStackNavigator} from '@react-navigation/stack'; 
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { NavigationContainer } from '@react-navigation/native';
 
-const Tab = createBottomTabNavigator()
+import HomeScreen from './src/screens/home/home'; 
+import SettingScreen from './src/screens/home/settings';
+import AnalyticsScreen from './src/screens/home/analytics';
+import NotesScreen from './src/screens/home/notes';
+import TabBar from './src/components/common/TabBar';
 
-export default function App () {
+const Tab = createBottomTabNavigator();
+
+function HomeTabs() {
   return (
-    <GestureHandlerRootView style={{flex: 1}}>
-      <NavigationContainer>
-        <Tab.Navigator
-          screenOptions={{
-            tabBarActiveTintColor: 'teal',
-            tabBarInactiveTintColor: 'gray',
-            tabBarStyle: [
-              {
-                display: 'flex',
-              },
-              null,
-            ],
-          }}>
-          <Tab.Screen
-            options={{
-              tabBarIcon: ({focused, color, size}) => (
-                <Icon
-                  name={focused ? 'home' : 'home-outline'}
-                  color={color}
-                  size={size}
-                />
-              ),
-            }}
-            name='Home'
-            component={Home}
-          />
-          <Tab.Screen
-            options={{
-              tabBarIcon: ({focused, color, size}) => (
-                <Icon
-                  name={focused ? 'settings' : 'settings-outline'}
-                  color={color}
-                  size={size}
-                />
-              ),
-            }}
-            name='Settings'
-            component={Settings}
-          />
-
-          <Tab.Screen
-            options={{
-              tabBarIcon: ({focused, color, size}) => (
-                <Icon
-                  name={focused ? 'person' : 'person-outline'}
-                  color={color}
-                  size={size}
-                />
-              ),
-            }}
-            name='Profile'
-            component={Profile}
-          />
-        </Tab.Navigator>
-      </NavigationContainer>
-    </GestureHandlerRootView>
-  )
+    <Tab.Navigator initialRouteName={"home"} tabBar={props => <TabBar {...props} />} >
+      <Tab.Screen name="home" component={HomeScreen} />
+      <Tab.Screen name="analytics" component={AnalyticsScreen} />
+      <Tab.Screen name="notes" component={NotesScreen} />
+      <Tab.Screen name="settings" component={SettingScreen} />
+    </Tab.Navigator>
+  );
 }
 
-function Settings () {
-  return (
-    <View style={{flex: 1}}>
-      <Text>Settings</Text>
-    </View>
-  )
+const Stack = createStackNavigator();
+
+function App(){
+  return(
+    <NavigationContainer>
+      <Stack.Navigator initialRouteName={"HomeTabs"} screenOptions={{headerShown:false}}>
+        <Stack.Screen name="HomeTabs" component={HomeTabs}/>
+      </Stack.Navigator>
+    </NavigationContainer>
+  );
 }
 
-function Profile () {
-  return (
-    <View style={{flex: 1}}>
-      <Text>Profile</Text>
-    </View>
-  )
-}
+export default App; 
