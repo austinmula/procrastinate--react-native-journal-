@@ -3,6 +3,7 @@ import React from 'react';
 import {View, Pressable, Dimensions, StyleSheet} from 'react-native';
 // import NavigationIcon from './navigationIcon';
 import Icon from 'react-native-vector-icons/Ionicons';
+import variables from '../../variables/colors';
 
 const {width} = Dimensions.get('window');
 
@@ -41,7 +42,9 @@ const TabBar = ({state, descriptors, navigation}: any) => {
             <Pressable
               onPress={onPress}
               style={{
-                backgroundColor: isFocused ? '#030D16' : '#182028',
+                backgroundColor: isFocused
+                  ? variables.colors.darkerbg
+                  : variables.colors.darkbg,
                 borderRadius: 20,
               }}>
               <View
@@ -53,7 +56,7 @@ const TabBar = ({state, descriptors, navigation}: any) => {
                 }}>
                 <Icon
                   name={label}
-                  color="white"
+                  color={variables.colors.lighterBg}
                   size={18}
                   route={label}
                   isFocused={isFocused}
@@ -72,9 +75,16 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     position: 'absolute',
     bottom: 25,
-    backgroundColor: '#182028',
+    backgroundColor: variables.colors.tan,
     borderRadius: 25,
     marginHorizontal: width * 0.05,
+    // Android
+    elevation: 8, // Add elevation for box shadow
+    // iOS
+    shadowColor: variables.colors.darkbg,
+    shadowOffset: {width: 2, height: 2},
+    shadowOpacity: 0.3,
+    shadowRadius: 5,
   },
   mainItemContainer: {
     flex: 1,
