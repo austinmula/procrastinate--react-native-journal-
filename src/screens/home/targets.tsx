@@ -12,7 +12,7 @@ const GoalsScreen = ({navigation}: GoalsScreenProps) => {
     <View style={styles.mainContainer}>
       <SafeAreaView style={styles.container}>
         <StatusBar />
-        <Text style={{fontSize: 30, fontWeight: '700'}}>Goals</Text>
+        {/* <Text style={{fontSize: 30, fontWeight: '700'}}>Goals</Text> */}
       </SafeAreaView>
     </View>
   );
