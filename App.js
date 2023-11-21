@@ -8,8 +8,11 @@ import TasksScreen from './src/screens/home/tasks'
 import CalendarScreen from './src/screens/home/calendar'
 import GoalsScreen from './src/screens/home/targets'
 import TabBar from './src/components/common/TabBar'
+import {createDrawerNavigator} from '@react-navigation/drawer'
+import variables from './src/variables/colors'
 
 const Tab = createBottomTabNavigator()
+const Drawer = createDrawerNavigator()
 
 function HomeTabs () {
   return (
@@ -42,14 +45,30 @@ function HomeTabs () {
 
 const Stack = createStackNavigator()
 
+const DrawerNavigator = () => {
+  return (
+    <Drawer.Navigator
+      screenOptions={{
+        drawerStyle: {
+          backgroundColor: variables.colors.lighterBg,
+        },
+        headerTintColor: variables.colors.darkbg,
+        drawerType: 'front',
+        drawerPosition: 'right',
+      }}>
+      <Drawer.Screen
+        options={{headerTransparent: true, headerTitle: ''}}
+        name='home'
+        component={HomeTabs}
+      />
+    </Drawer.Navigator>
+  )
+}
+
 function App () {
   return (
     <NavigationContainer>
-      <Stack.Navigator
-        initialRouteName={'HomeTabs'}
-        screenOptions={{headerShown: false}}>
-        <Stack.Screen name='HomeTabs' component={HomeTabs} />
-      </Stack.Navigator>
+      <DrawerNavigator />
     </NavigationContainer>
   )
 }

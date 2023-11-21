@@ -12,7 +12,7 @@ const CalendarScreen = ({navigation}: CalendarScreenProps) => {
     <View style={styles.mainContainer}>
       <SafeAreaView style={styles.container}>
         <StatusBar />
-        <Text style={{fontSize: 30, fontWeight: '700'}}>Calendar</Text>
+        {/* <Text style={{fontSize: 30, fontWeight: '700'}}>Calendar</Text> */}
       </SafeAreaView>
     </View>
   );
