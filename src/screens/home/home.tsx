@@ -1,5 +1,13 @@
 import React, {useState} from 'react';
-import {Text, StyleSheet, StatusBar, View, Dimensions} from 'react-native';
+import {
+  Text,
+  StyleSheet,
+  StatusBar,
+  View,
+  Dimensions,
+  FlatList,
+  Button,
+} from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import variables from '../../variables/colors';
 
@@ -9,8 +17,28 @@ interface HomeScreenProps {
 
 const {height, width} = Dimensions.get('window');
 
+const filterItems = [
+  {
+    id: '1',
+    title: 'All Items',
+  },
+  {
+    id: '2',
+    title: 'Targets',
+  },
+  {
+    id: '3',
+    title: 'Tasks',
+  },
+];
+
+type ItemProps = {title: string};
+
 const HomeScreen = ({navigation}: HomeScreenProps) => {
   const [dateToday, setDateToday] = useState<Date>(new Date());
+
+  const Item = ({title}: ItemProps) => <View style={styles.item}></View>;
+
   const monthInText = dateToday.toLocaleString('default', {month: 'long'});
   return (
     <View style={styles.mainContainer}>
@@ -32,6 +60,12 @@ const HomeScreen = ({navigation}: HomeScreenProps) => {
         </View>
       </View>
       <View style={styles.container}>
+        <FlatList
+          horizontal
+          data={filterItems}
+          renderItem={({item}) => <Item title={item.title} />}
+          keyExtractor={item => item.id}
+        />
         {/* <Text style={{fontSize: 30, fontWeight: '700'}}>Home</Text> */}
       </View>
     </View>
@@ -95,5 +129,12 @@ const styles = StyleSheet.create({
     letterSpacing: 3,
     fontWeight: 'bold',
     color: variables.colors.lighterBg,
+  },
+  item: {
+    backgroundColor: '#f9c2ff',
+    height: 25,
+    padding: 10,
+    marginVertical: 8,
+    marginHorizontal: 10,
   },
 });
