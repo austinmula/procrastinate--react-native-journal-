@@ -6,10 +6,10 @@ import {
   View,
   Dimensions,
   FlatList,
-  Button,
 } from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import variables from '../../variables/colors';
+import {Button} from 'react-native-paper';
 
 interface HomeScreenProps {
   navigation: any;
@@ -30,6 +30,10 @@ const filterItems = [
     id: '3',
     title: 'Tasks',
   },
+  {
+    id: '4',
+    title: 'Another',
+  },
 ];
 
 type ItemProps = {title: string};
@@ -37,7 +41,16 @@ type ItemProps = {title: string};
 const HomeScreen = ({navigation}: HomeScreenProps) => {
   const [dateToday, setDateToday] = useState<Date>(new Date());
 
-  const Item = ({title}: ItemProps) => <View style={styles.item}></View>;
+  const Item = ({title}: ItemProps) => (
+    <View style={styles.item}>
+      <Button
+        // icon="camera"
+        mode="outlined"
+        onPress={() => console.log('Pressed')}>
+        {title}
+      </Button>
+    </View>
+  );
 
   const monthInText = dateToday.toLocaleString('default', {month: 'long'});
   return (
@@ -77,7 +90,7 @@ export default HomeScreen;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    // padding: 10,
+    paddingTop: height * 0.04,
   },
   mainContainer: {
     flex: 1,
@@ -131,10 +144,6 @@ const styles = StyleSheet.create({
     color: variables.colors.lighterBg,
   },
   item: {
-    backgroundColor: '#f9c2ff',
-    height: 25,
-    padding: 10,
-    marginVertical: 8,
-    marginHorizontal: 10,
+    marginHorizontal: 5,
   },
 });
