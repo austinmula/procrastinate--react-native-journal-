@@ -1,14 +1,14 @@
 import React from 'react'
-import {createStackNavigator} from '@react-navigation/stack'
-import {createBottomTabNavigator} from '@react-navigation/bottom-tabs'
-import {NavigationContainer} from '@react-navigation/native'
+import { createStackNavigator } from '@react-navigation/stack'
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
+import { NavigationContainer } from '@react-navigation/native'
 
 import HomeScreen from './src/screens/home/home'
 import TasksScreen from './src/screens/home/tasks'
 import CalendarScreen from './src/screens/home/calendar'
 import GoalsScreen from './src/screens/home/targets'
 import TabBar from './src/components/common/TabBar'
-import {createDrawerNavigator} from '@react-navigation/drawer'
+import { createDrawerNavigator } from '@react-navigation/drawer'
 import variables from './src/variables/colors'
 
 const Tab = createBottomTabNavigator()
@@ -57,8 +57,15 @@ const DrawerNavigator = () => {
         drawerPosition: 'right',
       }}>
       <Drawer.Screen
-        options={{headerTransparent: true, headerTitle: ''}}
-        name='home'
+        options={{
+          // headerTransparent: true, 
+          headerTitle: '',
+          headerStyle: {
+            backgroundColor: variables.colors.lightBg
+          },
+        
+        }}
+        name='Home'
         component={HomeTabs}
       />
     </Drawer.Navigator>
