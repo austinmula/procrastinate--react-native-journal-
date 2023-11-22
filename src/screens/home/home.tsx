@@ -11,19 +11,20 @@ const {height, width} = Dimensions.get('window');
 
 const HomeScreen = ({navigation}: HomeScreenProps) => {
   const [dateToday, setDateToday] = useState<Date>(new Date());
+  const monthInText = dateToday.toLocaleString('default', {month: 'long'});
   return (
     <View style={styles.mainContainer}>
       <StatusBar />
       <View style={styles.headingContainer}>
         <View>
-          <Text style={{fontSize: 24, marginTop: 10, fontWeight: '600'}}>
+          <Text style={{fontSize: 22, fontWeight: '600', letterSpacing: 1}}>
             Hello Stranger,
           </Text>
           <Text style={{marginTop: 10}}>Today on your Schedule.</Text>
         </View>
         <View style={styles.dateContainer}>
           <View style={styles.dateContainerTop}>
-            <Text style={styles.monthText}>SEPTEMBER</Text>
+            <Text style={styles.monthText}>{monthInText}</Text>
           </View>
           <View style={styles.dateCard}>
             <Text style={styles.dateText}>{dateToday.getDate()}</Text>
@@ -31,7 +32,7 @@ const HomeScreen = ({navigation}: HomeScreenProps) => {
         </View>
       </View>
       <View style={styles.container}>
-        <Text style={{fontSize: 30, fontWeight: '700'}}>Home</Text>
+        {/* <Text style={{fontSize: 30, fontWeight: '700'}}>Home</Text> */}
       </View>
     </View>
   );
@@ -55,19 +56,19 @@ const styles = StyleSheet.create({
     borderBottomLeftRadius: width * 0.1,
     justifyContent: 'space-between',
     flexDirection: 'row',
-    // alignItems: 'center',
-    paddingHorizontal: width * 0.1,
+    alignItems: 'center',
+    paddingHorizontal: width * 0.06,
   },
   dateContainer: {
     height: '65%',
-    backgroundColor: 'red',
+    backgroundColor: variables.colors.tan,
     width: 100,
-    borderRadius: 24,
+    borderRadius: 10,
     overflow: 'hidden',
     // Android
     elevation: 8, // Add elevation for box shadow
     // iOS
-    shadowColor: variables.colors.darkbg,
+    shadowColor: variables.colors.black,
     shadowOffset: {width: 2, height: 2},
     shadowOpacity: 0.3,
     shadowRadius: 5,
@@ -81,9 +82,9 @@ const styles = StyleSheet.create({
     fontSize: 10,
     fontWeight: '800',
     color: variables.colors.white,
+    textTransform: 'uppercase',
   },
   dateCard: {
-    // borderRadius: 24,
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
@@ -93,6 +94,6 @@ const styles = StyleSheet.create({
     fontSize: 40,
     letterSpacing: 3,
     fontWeight: 'bold',
-    color: 'white',
+    color: variables.colors.lighterBg,
   },
 });
