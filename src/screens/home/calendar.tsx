@@ -36,6 +36,8 @@ export default class CalendarScreen extends Component<State> {
         <StatusBar />
         <View style={styles.container}>
           <Agenda
+            // calendarHeight={90}
+
             testID={testIDs.agenda.CONTAINER}
             items={this.state.items}
             loadItemsForMonth={this.loadItems}
@@ -44,6 +46,53 @@ export default class CalendarScreen extends Component<State> {
             renderEmptyDate={this.renderEmptyDate}
             rowHasChanged={this.rowHasChanged}
             showClosingKnob={true}
+            calendarStyle={{
+              backgroundColor: variables.colors.lightBg,
+            }}
+            headerStyle={{
+              backgroundColor: '#7798AB',
+            }}
+            // disablePan
+            // hideKnob
+            // initialPosition={ExpandableCalendar.positions.OPEN}
+            // calendarStyle={styles.calendar}
+            // headerStyle={styles.header} // for horizontal only
+            // disableWeekScroll
+            //   theme={theme.current}
+            // disableAllTouchEventsForDisabledDays
+            // firstDay={1}
+            //   markedDates={marked.current}
+            // leftArrowImageSource={leftArrowIcon}
+            // rightArrowImageSource={rightArrowIcon}
+            // animateScroll
+            // closeOnDayPress={false}
+
+            style={{
+              backgroundColor: variables.colors.lighterBg,
+            }}
+            theme={{
+              selectedDayBackgroundColor: variables.colors.darkbg,
+              selectedDotColor: variables.colors.tan,
+              dotColor: variables.colors.darkbg,
+              // textDayFontSize: 20,
+              // backgroundColor: variables.colors.lighterBg,
+              calendarBackground: variables.colors.lightBg,
+              //   textDayHeaderFontSize: 20,
+              // textMonthFontSize: 32,
+              // arrowColor: 'orange',
+              // textMonthFontWeight: '100',
+              textDayFontFamily: 'monospace',
+              textMonthFontFamily: 'monospace',
+              textDayHeaderFontFamily: 'monospace',
+              monthTextColor: variables.colors.darkbg,
+              
+              // indicatorColor: 'blue',
+              //   backgroundColor: 'red',
+              //   calendarBackground: '#f3f3f3',
+              //   textDayFontWeight: '700',
+              //   textSectionTitleColor: '#0D1B1E',
+              //   selectedDayBackgroundColor: '#7798AB',
+            }}
             // markingType={'period'}
             // markedDates={{
             //    '2017-05-08': {textColor: '#43515c'},
@@ -71,7 +120,7 @@ export default class CalendarScreen extends Component<State> {
     const items = this.state.items || {};
 
     setTimeout(() => {
-      for (let i = -15; i < 1; i++) {
+      for (let i = -15; i < 10; i++) {
         const time = day.timestamp + i * 24 * 60 * 60 * 1000;
         const strTime = this.timeToString(time);
 
@@ -101,7 +150,11 @@ export default class CalendarScreen extends Component<State> {
 
   renderDay = (day: any) => {
     if (day) {
-      return <Text style={styles.customDay}>{day.getDay()}</Text>;
+      return (
+        <View style={{alignItems: 'center', justifyContent: 'center', height: 10, width: 10, backgroundColor: "red"}}>
+          <Text style={styles.customDay}>{day.getDay()}</Text>
+        </View>
+      );
     }
     return <View style={styles.dayItem} />;
   };
@@ -140,15 +193,15 @@ export default class CalendarScreen extends Component<State> {
 
 const styles = StyleSheet.create({
   item: {
-    backgroundColor: 'white',
+    backgroundColor: variables.colors.lightBg,
     flex: 1,
-    borderRadius: 5,
+    borderRadius: 8,
     padding: 10,
     marginRight: 10,
     marginTop: 17,
   },
   emptyDate: {
-    height: 0,
+    height: 15,
     flex: 1,
     paddingTop: 30,
   },
