@@ -1,15 +1,8 @@
 import React, {useState} from 'react';
-import {
-  Text,
-  StyleSheet,
-  StatusBar,
-  View,
-  Dimensions,
-  FlatList,
-} from 'react-native';
+import {StyleSheet, StatusBar, View, Dimensions, FlatList} from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import variables from '../../variables/colors';
-import {Button} from 'react-native-paper';
+import {Button, Text} from 'react-native-paper';
 
 interface HomeScreenProps {
   navigation: any;
@@ -58,21 +51,23 @@ const HomeScreen = ({navigation}: HomeScreenProps) => {
       <StatusBar />
       <View style={styles.headingContainer}>
         <View>
-          <Text style={{fontSize: 22, fontWeight: '600', letterSpacing: 1}}>
-            Hello Stranger,
+          <Text variant="headlineMedium">Hello Stranger,</Text>
+          <Text variant="titleSmall" style={{marginTop: 10}}>
+            Today on your Schedule.
           </Text>
-          <Text style={{marginTop: 10}}>Today on your Schedule.</Text>
         </View>
         <View style={styles.dateContainer}>
           <View style={styles.dateContainerTop}>
-            <Text style={styles.monthText}>{monthInText}</Text>
+            <Text variant="labelSmall" style={styles.monthText}>
+              {monthInText}
+            </Text>
           </View>
           <View style={styles.dateCard}>
             <Text style={styles.dateText}>{dateToday.getDate()}</Text>
           </View>
         </View>
       </View>
-      <View style={styles.container}>
+      <View style={styles.bodyContainer}>
         <FlatList
           horizontal
           data={filterItems}
@@ -88,7 +83,7 @@ const HomeScreen = ({navigation}: HomeScreenProps) => {
 export default HomeScreen;
 
 const styles = StyleSheet.create({
-  container: {
+  bodyContainer: {
     flex: 1,
     paddingTop: height * 0.04,
   },
@@ -126,10 +121,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   monthText: {
-    fontSize: 10,
-    fontWeight: '800',
     color: variables.colors.white,
-    textTransform: 'uppercase',
   },
   dateCard: {
     flex: 1,
