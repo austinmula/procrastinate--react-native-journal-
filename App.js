@@ -1,14 +1,14 @@
 import React from 'react'
-import { createStackNavigator } from '@react-navigation/stack'
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
-import { NavigationContainer } from '@react-navigation/native'
+import {createStackNavigator} from '@react-navigation/stack'
+import {createBottomTabNavigator} from '@react-navigation/bottom-tabs'
+import {NavigationContainer} from '@react-navigation/native'
 
 import HomeScreen from './src/screens/home/home'
 import TasksScreen from './src/screens/home/tasks'
 import CalendarScreen from './src/screens/home/calendar'
 import GoalsScreen from './src/screens/home/targets'
 import TabBar from './src/components/common/TabBar'
-import { createDrawerNavigator } from '@react-navigation/drawer'
+import {createDrawerNavigator} from '@react-navigation/drawer'
 import variables from './src/variables/colors'
 
 const Tab = createBottomTabNavigator()
@@ -26,11 +26,6 @@ function HomeTabs () {
       />
       <Tab.Screen
         options={{headerShown: false}}
-        name='calendar'
-        component={CalendarScreen}
-      />
-      <Tab.Screen
-        options={{headerShown: false}}
         name='time'
         component={GoalsScreen}
       />
@@ -38,6 +33,11 @@ function HomeTabs () {
         options={{headerShown: false}}
         name='list'
         component={TasksScreen}
+      />
+      <Tab.Screen
+        options={{headerShown: false}}
+        name='calendar'
+        component={CalendarScreen}
       />
     </Tab.Navigator>
   )
@@ -58,12 +58,11 @@ const DrawerNavigator = () => {
       }}>
       <Drawer.Screen
         options={{
-          // headerTransparent: true, 
+          // headerTransparent: true,
           headerTitle: '',
           headerStyle: {
-            backgroundColor: variables.colors.lightBg
+            backgroundColor: variables.colors.lightBg,
           },
-        
         }}
         name='Home'
         component={HomeTabs}
