@@ -41,16 +41,13 @@ export default class CalendarScreen extends Component<State> {
             testID={testIDs.agenda.CONTAINER}
             items={this.state.items}
             loadItemsForMonth={this.loadItems}
-            selected={'2017-05-16'}
+            selected={'2023-11-16'}
             renderItem={this.renderItem}
             renderEmptyDate={this.renderEmptyDate}
             rowHasChanged={this.rowHasChanged}
             showClosingKnob={true}
             calendarStyle={{
               backgroundColor: variables.colors.lightBg,
-            }}
-            headerStyle={{
-              backgroundColor: '#7798AB',
             }}
             // disablePan
             // hideKnob
@@ -85,7 +82,6 @@ export default class CalendarScreen extends Component<State> {
               textMonthFontFamily: 'monospace',
               textDayHeaderFontFamily: 'monospace',
               monthTextColor: variables.colors.darkbg,
-              
               // indicatorColor: 'blue',
               //   backgroundColor: 'red',
               //   calendarBackground: '#f3f3f3',
@@ -120,7 +116,7 @@ export default class CalendarScreen extends Component<State> {
     const items = this.state.items || {};
 
     setTimeout(() => {
-      for (let i = -15; i < 10; i++) {
+      for (let i = -15; i < 1; i++) {
         const time = day.timestamp + i * 24 * 60 * 60 * 1000;
         const strTime = this.timeToString(time);
 
@@ -151,7 +147,14 @@ export default class CalendarScreen extends Component<State> {
   renderDay = (day: any) => {
     if (day) {
       return (
-        <View style={{alignItems: 'center', justifyContent: 'center', height: 10, width: 10, backgroundColor: "red"}}>
+        <View
+          style={{
+            alignItems: 'center',
+            justifyContent: 'center',
+            height: 10,
+            width: 10,
+            backgroundColor: 'red',
+          }}>
           <Text style={styles.customDay}>{day.getDay()}</Text>
         </View>
       );
