@@ -3,7 +3,7 @@ import React from 'react';
 import {View, Pressable, Dimensions, StyleSheet} from 'react-native';
 // import NavigationIcon from './navigationIcon';
 import Icon from 'react-native-vector-icons/Ionicons';
-import variables from '../../variables/colors';
+import variables from '../../utils/variables/colors';
 
 const {width} = Dimensions.get('window');
 

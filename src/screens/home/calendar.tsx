@@ -14,7 +14,7 @@ import {
   AgendaSchedule,
 } from 'react-native-calendars';
 import testIDs from '../../utils/testIDs';
-import variables from '../../variables/colors';
+import variables from '../../utils/variables/colors';
 import {SafeAreaView} from 'react-native-safe-area-context';
 
 interface State {

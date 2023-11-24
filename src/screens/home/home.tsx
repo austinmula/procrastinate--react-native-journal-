@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import {StyleSheet, StatusBar, View, Dimensions, FlatList} from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
-import variables from '../../variables/colors';
+import variables from '../../utils/variables/colors';
 import {Button, Text} from 'react-native-paper';
 
 interface HomeScreenProps {

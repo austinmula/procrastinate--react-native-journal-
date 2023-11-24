@@ -1,7 +1,7 @@
 import React from 'react';
 import {Text, StyleSheet, StatusBar, View} from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
-import variables from '../../variables/colors';
+import variables from '../../utils/variables/colors';
 
 interface GoalsScreenProps {
   navigation: any;

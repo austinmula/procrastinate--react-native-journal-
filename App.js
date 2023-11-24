@@ -9,7 +9,7 @@ import CalendarScreen from './src/screens/home/calendar'
 import GoalsScreen from './src/screens/home/targets'
 import TabBar from './src/components/common/TabBar'
 import {createDrawerNavigator} from '@react-navigation/drawer'
-import variables from './src/variables/colors'
+import variables from './src/utils/variables/colors'
 
 const Tab = createBottomTabNavigator()
 const Drawer = createDrawerNavigator()
