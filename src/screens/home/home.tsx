@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import {StyleSheet, StatusBar, View, Dimensions, FlatList} from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import variables from '../../utils/variables/colors';
-import {Button, Text} from 'react-native-paper';
+import {Button, Card, Chip, IconButton, Text} from 'react-native-paper';
 
 interface HomeScreenProps {
   navigation: any;
@@ -27,6 +27,14 @@ const filterItems = [
     id: '4',
     title: 'Another',
   },
+  {
+    id: '5',
+    title: 'Another One',
+  },
+  {
+    id: '4',
+    title: 'Another Thing',
+  },
 ];
 
 type ItemProps = {title: string};
@@ -36,12 +44,13 @@ const HomeScreen = ({navigation}: HomeScreenProps) => {
 
   const Item = ({title}: ItemProps) => (
     <View style={styles.item}>
-      <Button
-        // icon="camera"
-        mode="outlined"
-        onPress={() => console.log('Pressed')}>
-        {title}
-      </Button>
+      <Card>
+        <Card.Title title={title} />
+        <Card.Content></Card.Content>
+        <Card.Actions>
+          <IconButton icon={'plus'} iconColor={'#fff'} size={20} />
+        </Card.Actions>
+      </Card>
     </View>
   );
 
@@ -68,12 +77,15 @@ const HomeScreen = ({navigation}: HomeScreenProps) => {
         </View>
       </View>
       <View style={styles.bodyContainer}>
-        <FlatList
-          horizontal
-          data={filterItems}
-          renderItem={({item}) => <Item title={item.title} />}
-          keyExtractor={item => item.id}
-        />
+        <View>
+          <FlatList
+            horizontal
+            data={filterItems}
+            renderItem={({item}) => <Item title={item.title} />}
+            keyExtractor={item => item.id}
+            showsHorizontalScrollIndicator={false}
+          />
+        </View>
         {/* <Text style={{fontSize: 30, fontWeight: '700'}}>Home</Text> */}
       </View>
     </View>
@@ -86,10 +98,12 @@ const styles = StyleSheet.create({
   bodyContainer: {
     flex: 1,
     paddingTop: height * 0.04,
+    paddingLeft: width * 0.01,
   },
   mainContainer: {
     flex: 1,
-    backgroundColor: variables.colors.lighterBg,
+    backgroundColor: variables.colors.white,
+    // backgroundColor: variables.colors.lighterBg,
   },
   headingContainer: {
     height: height * 0.2,
@@ -137,5 +151,9 @@ const styles = StyleSheet.create({
   },
   item: {
     marginHorizontal: 5,
+    // backgroundColor: variables.colors.lightBg,
+    width: width / 2.4,
+    maxWidth: 300,
+    height: height * 0.3,
   },
 });
