@@ -1,6 +1,6 @@
 const variables = {
   colors: {
-    white: '#fff',
+    white: '#eee',
     darkerbg: '#27233a',
     darkbg: '#505168',
     lighterBg: '#eaefd3',
