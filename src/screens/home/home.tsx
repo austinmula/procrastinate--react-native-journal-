@@ -13,27 +13,19 @@ const {height, width} = Dimensions.get('window');
 const filterItems = [
   {
     id: '1',
-    title: 'All Items',
+    title: 'Journal Entries',
   },
   {
     id: '2',
-    title: 'Targets',
+    title: 'Tasks Today',
   },
   {
     id: '3',
-    title: 'Tasks',
+    title: 'Active Goals',
   },
   {
     id: '4',
-    title: 'Another',
-  },
-  {
-    id: '5',
-    title: 'Another One',
-  },
-  {
-    id: '4',
-    title: 'Another Thing',
+    title: 'Personal Notes',
   },
 ];
 
@@ -45,10 +37,18 @@ const HomeScreen = ({navigation}: HomeScreenProps) => {
   const Item = ({title}: ItemProps) => (
     <View style={styles.item}>
       <Card>
-        <Card.Title title={title} />
-        <Card.Content></Card.Content>
+        <Card.Content>
+          <Text style={{letterSpacing: 1, fontSize: 20, fontWeight: '200'}}>
+            {title}
+          </Text>
+        </Card.Content>
         <Card.Actions>
-          <IconButton icon={'plus'} iconColor={'#fff'} size={20} />
+          <IconButton
+            containerColor={variables.colors.darkerbg}
+            icon={'plus'}
+            iconColor={'#fff'}
+            size={20}
+          />
         </Card.Actions>
       </Card>
     </View>
@@ -152,7 +152,7 @@ const styles = StyleSheet.create({
   item: {
     marginHorizontal: 5,
     // backgroundColor: variables.colors.lightBg,
-    width: width / 2.4,
+    width: width / 2,
     maxWidth: 300,
     height: height * 0.3,
   },
