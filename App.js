@@ -53,8 +53,8 @@ const DrawerNavigator = () => {
           backgroundColor: variables.colors.lighterBg,
         },
         headerTintColor: variables.colors.darkbg,
-        drawerType: 'front',
-        drawerPosition: 'right',
+        // drawerType: 'front',
+        // drawerPosition: 'right',
       }}>
       <Drawer.Screen
         options={{
