@@ -1,11 +1,13 @@
-import {useState} from 'react';
+import {useContext, useState} from 'react';
 import {StyleSheet, Text, View} from 'react-native';
 import {Button, Surface, TextInput} from 'react-native-paper';
+import {AuthContext} from '../context/AuthContext';
 
 export default function SignInScreen({navigation}) {
+  const {login} = useContext(AuthContext);
   const [text, setText] = useState('');
   function goToSignUp() {
-    navigation.navigate('signup')
+    navigation.navigate('signup');
   }
   return (
     <View style={styles.mainContainer}>
@@ -31,10 +33,7 @@ export default function SignInScreen({navigation}) {
           left={<TextInput.Icon icon="lock" />}
         />
 
-        <Button
-          buttonColor="#505168"
-          mode="contained"
-          onPress={() => console.log('Pressed')}>
+        <Button buttonColor="#505168" mode="contained" onPress={login}>
           Sign In
         </Button>
 
