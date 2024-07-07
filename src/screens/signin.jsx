@@ -12,7 +12,9 @@ export default function SignInScreen() {
       <Surface style={styles.surface} elevation={1}>
         <View style={styles.headingContainer}>
           <Text style={styles.headingText}>Sign In</Text>
-          <Text style={{marginTop: 10}}>Please enter username and password to login</Text>
+          <Text style={{marginTop: 10}}>
+            Please enter username and password to login
+          </Text>
         </View>
         <TextInput
           label="Username or Email"
@@ -29,7 +31,10 @@ export default function SignInScreen() {
           left={<TextInput.Icon icon="lock" />}
         />
 
-        <Button mode="contained" onPress={() => console.log('Pressed')}>
+        <Button
+          buttonColor="#505168"
+          mode="contained"
+          onPress={() => console.log('Pressed')}>
           Sign In
         </Button>
 
@@ -51,13 +56,13 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
+    backgroundColor: '#eaefd3',
   },
   surface: {
-    padding: 15,
+    padding: 20,
     width: '90%',
     gap: 20,
-    // alignItems: 'center',
-    // justifyContent: 'center',
+    borderRadius: 20,
   },
   textInput: {
     width: '100%',
@@ -75,6 +80,7 @@ const styles = StyleSheet.create({
   headingText: {
     fontWeight: '700',
     fontSize: 32,
+    color: '#505168',
   },
   headingContainer: {
     paddingTop: 25,
