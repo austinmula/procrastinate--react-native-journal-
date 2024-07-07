@@ -2,29 +2,43 @@ import {useState} from 'react';
 import {StyleSheet, Text, View} from 'react-native';
 import {Button, Surface, TextInput} from 'react-native-paper';
 
-export default function SignInScreen({navigation}) {
+export default function SignUpScreen({navigation}) {
   const [text, setText] = useState('');
-  function goToSignUp() {
-    navigation.navigate('signup')
+  function goToSignIn() {
+    navigation.navigate('signin');
   }
   return (
     <View style={styles.mainContainer}>
       <Surface style={styles.surface} elevation={1}>
         <View style={styles.headingContainer}>
-          <Text style={styles.headingText}>Sign In</Text>
+          <Text style={styles.headingText}>Sign Up</Text>
           <Text style={{marginTop: 10}}>
-            Please enter username and password to login
+            Please enter your details to create an account
           </Text>
         </View>
         <TextInput
-          label="Username or Email"
+          label="Full Name"
           value={text}
           onChangeText={text => setText(text)}
           mode="outlined"
           left={<TextInput.Icon icon="account" />}
         />
         <TextInput
+          label="Email Address"
+          value={text}
+          onChangeText={text => setText(text)}
+          mode="outlined"
+          left={<TextInput.Icon icon="email" />}
+        />
+        <TextInput
           label="Password"
+          secureTextEntry
+          mode="outlined"
+          right={<TextInput.Icon icon="eye" />}
+          left={<TextInput.Icon icon="lock" />}
+        />
+        <TextInput
+          label="Confirm Password"
           secureTextEntry
           mode="outlined"
           right={<TextInput.Icon icon="eye" />}
@@ -35,14 +49,14 @@ export default function SignInScreen({navigation}) {
           buttonColor="#505168"
           mode="contained"
           onPress={() => console.log('Pressed')}>
-          Sign In
+          Create Account
         </Button>
 
         <View style={styles.textContainer}>
           <Text>
-            Don't have an account?{' '}
-            <Text style={styles.signInCta} onPress={goToSignUp}>
-              Create New Account
+            I already have an account?{' '}
+            <Text style={styles.signInCta} onPress={goToSignIn}>
+              Sign In
             </Text>
           </Text>
         </View>
@@ -61,7 +75,7 @@ const styles = StyleSheet.create({
   surface: {
     padding: 20,
     width: '90%',
-    gap: 20,
+    gap: 10,
     borderRadius: 20,
   },
   textInput: {
