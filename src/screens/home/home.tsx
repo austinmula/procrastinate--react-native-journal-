@@ -48,6 +48,7 @@ const HomeScreen = ({navigation}: HomeScreenProps) => {
             icon={'plus'}
             iconColor={'#fff'}
             size={20}
+            onPress={() => navigation.navigate('createEntry')}
           />
         </Card.Actions>
       </Card>

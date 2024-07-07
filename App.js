@@ -1,49 +1,65 @@
-import React from 'react'
-import {createStackNavigator} from '@react-navigation/stack'
-import {createBottomTabNavigator} from '@react-navigation/bottom-tabs'
-import {NavigationContainer} from '@react-navigation/native'
+import React from 'react';
+import {createStackNavigator} from '@react-navigation/stack';
+import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
+import {NavigationContainer} from '@react-navigation/native';
 
-import HomeScreen from './src/screens/home/home'
-import TasksScreen from './src/screens/home/tasks'
-import CalendarScreen from './src/screens/home/calendar'
-import GoalsScreen from './src/screens/home/targets'
-import TabBar from './src/components/common/TabBar'
-import {createDrawerNavigator} from '@react-navigation/drawer'
-import variables from './src/utils/variables/colors'
+import HomeScreen from './src/screens/home/home';
+import TasksScreen from './src/screens/home/tasks';
+import CalendarScreen from './src/screens/home/calendar';
+import GoalsScreen from './src/screens/home/targets';
+import TabBar from './src/components/common/TabBar';
+import {createDrawerNavigator} from '@react-navigation/drawer';
+import variables from './src/utils/variables/colors';
+import CreateJournalEntry from './src/screens/home/homestack/createJournalEntry';
 
-const Tab = createBottomTabNavigator()
-const Drawer = createDrawerNavigator()
+const Tab = createBottomTabNavigator();
+const Drawer = createDrawerNavigator();
 
-function HomeTabs () {
+function HomeTabs() {
   return (
     <Tab.Navigator
       initialRouteName={'home'}
       tabBar={props => <TabBar {...props} />}>
       <Tab.Screen
         options={{headerShown: false}}
-        name='home'
-        component={HomeScreen}
+        name="home"
+        component={HomeStack}
       />
       <Tab.Screen
         options={{headerShown: false}}
-        name='time'
+        name="time"
         component={GoalsScreen}
       />
       <Tab.Screen
         options={{headerShown: false}}
-        name='list'
+        name="list"
         component={TasksScreen}
       />
       <Tab.Screen
         options={{headerShown: false}}
-        name='calendar'
+        name="calendar"
         component={CalendarScreen}
       />
     </Tab.Navigator>
-  )
+  );
 }
 
-const Stack = createStackNavigator()
+const Stack = createStackNavigator();
+
+const HomeStack = () => (
+  <Stack.Navigator initialRouteName="home">
+    <Stack.Screen
+      name="Home"
+      component={HomeScreen}
+      options={{headerShown: false}}
+    />
+    <Stack.Screen
+      name="createEntry"
+      options={{headerShown: false}}
+      component={CreateJournalEntry}
+    />
+  </Stack.Navigator>
+);
 
 const DrawerNavigator = () => {
   return (
@@ -64,19 +80,19 @@ const DrawerNavigator = () => {
             backgroundColor: variables.colors.lightBg,
           },
         }}
-        name='Home'
+        name="Home"
         component={HomeTabs}
       />
     </Drawer.Navigator>
-  )
-}
+  );
+};
 
-function App () {
+function App() {
   return (
     <NavigationContainer>
       <DrawerNavigator />
     </NavigationContainer>
-  )
+  );
 }
 
-export default App
+export default App;
