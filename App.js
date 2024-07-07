@@ -11,6 +11,8 @@ import TabBar from './src/components/common/TabBar';
 import {createDrawerNavigator} from '@react-navigation/drawer';
 import variables from './src/utils/variables/colors';
 import CreateJournalEntry from './src/screens/home/homestack/createJournalEntry';
+import SignInScreen from './src/screens/signin';
+import SignUpScreen from './src/screens/signup';
 
 const Tab = createBottomTabNavigator();
 const Drawer = createDrawerNavigator();
@@ -61,6 +63,23 @@ const HomeStack = () => (
   </Stack.Navigator>
 );
 
+const AuthStack = () => {
+  return (
+    <Stack.Navigator initialRouteName="signin">
+      <Stack.Screen
+        name="signin"
+        component={SignInScreen}
+        options={{headerShown: false}}
+      />
+      <Stack.Screen
+        name="signup"
+        options={{headerShown: false}}
+        component={SignUpScreen}
+      />
+    </Stack.Navigator>
+  );
+};
+
 const DrawerNavigator = () => {
   return (
     <Drawer.Navigator
@@ -90,7 +109,8 @@ const DrawerNavigator = () => {
 function App() {
   return (
     <NavigationContainer>
-      <DrawerNavigator />
+      {/* <DrawerNavigator /> */}
+      <AuthStack />
     </NavigationContainer>
   );
 }
