@@ -89,7 +89,6 @@ const styles = StyleSheet.create({
   },
   signInCta: {
     fontWeight: '700',
-    cursor: 'pointer',
   },
   headingText: {
     fontWeight: '700',
