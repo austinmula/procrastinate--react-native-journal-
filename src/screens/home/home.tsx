@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import {StyleSheet, StatusBar, View, Dimensions, FlatList} from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import variables from '../../utils/variables/colors';
-import {Button, Card, Chip, IconButton, Text} from 'react-native-paper';
+import {Button, Card, Chip, FAB, IconButton, Text} from 'react-native-paper';
 
 interface HomeScreenProps {
   navigation: any;
@@ -13,19 +13,23 @@ const {height, width} = Dimensions.get('window');
 const filterItems = [
   {
     id: '1',
-    title: 'Journal Entries',
+    title: 'All',
   },
   {
     id: '2',
-    title: 'Tasks Today',
+    title: 'Personal',
   },
   {
     id: '3',
-    title: 'Active Goals',
+    title: 'Work',
   },
   {
     id: '4',
-    title: 'Personal Notes',
+    title: 'Travel',
+  },
+  {
+    id: '5',
+    title: 'Other',
   },
 ];
 
@@ -35,24 +39,22 @@ const HomeScreen = ({navigation}: HomeScreenProps) => {
   const [dateToday, setDateToday] = useState<Date>(new Date());
 
   const Item = ({title}: ItemProps) => (
-    <View style={styles.item}>
-      <Card>
-        <Card.Content>
-          <Text style={{letterSpacing: 1, fontSize: 20, fontWeight: '200'}}>
-            {title}
-          </Text>
-        </Card.Content>
-        <Card.Actions>
-          <IconButton
-            containerColor={variables.colors.darkerbg}
-            icon={'plus'}
-            iconColor={'#fff'}
-            size={20}
-            onPress={() => navigation.navigate('createEntry')}
-          />
-        </Card.Actions>
-      </Card>
-    </View>
+    <Chip
+      textStyle={{
+        color: 'white',
+      }}
+      style={{
+        marginLeft: 10,
+        paddingLeft: 12,
+        paddingRight: 12,
+        borderRadius: 20,
+        paddingTop: 5,
+        paddingBottom: 5,
+        backgroundColor: '#505168',
+      }}
+      onPress={() => console.log('Pressed')}>
+      {title}
+    </Chip>
   );
 
   const monthInText = dateToday.toLocaleString('default', {month: 'long'});
@@ -89,6 +91,13 @@ const HomeScreen = ({navigation}: HomeScreenProps) => {
         </View>
         {/* <Text style={{fontSize: 30, fontWeight: '700'}}>Home</Text> */}
       </View>
+      <FAB
+        icon="plus"
+        style={styles.fab}
+        variant="primary"
+        onPress={() => navigation.navigate('createEntry')}
+        theme={{colors: {primary: 'red'}}}
+      />
     </View>
   );
 };
@@ -156,5 +165,12 @@ const styles = StyleSheet.create({
     width: width / 2,
     maxWidth: 300,
     height: height * 0.3,
+  },
+  fab: {
+    backgroundColor: '#eaefd3',
+    position: 'absolute',
+    margin: 16,
+    right: 0,
+    bottom: 0,
   },
 });
