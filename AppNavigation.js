@@ -21,35 +21,6 @@ const Tab = createBottomTabNavigator();
 const Drawer = createDrawerNavigator();
 const Stack = createStackNavigator();
 
-function HomeTabs() {
-  return (
-    <Tab.Navigator
-      initialRouteName={'home'}
-      tabBar={props => <TabBar {...props} />}>
-      <Tab.Screen
-        options={{headerShown: false}}
-        name="home"
-        component={HomeStack}
-      />
-      <Tab.Screen
-        options={{headerShown: false}}
-        name="time"
-        component={GoalsScreen}
-      />
-      <Tab.Screen
-        options={{headerShown: false}}
-        name="list"
-        component={TasksScreen}
-      />
-      <Tab.Screen
-        options={{headerShown: false}}
-        name="calendar"
-        component={CalendarScreen}
-      />
-    </Tab.Navigator>
-  );
-}
-
 const HomeStack = () => (
   <Stack.Navigator initialRouteName="home">
     <Stack.Screen
@@ -101,8 +72,8 @@ const DrawerNavigator = () => {
             backgroundColor: variables.colors.lightBg,
           },
         }}
-        name="Home"
-        component={HomeTabs}
+        name="home"
+        component={HomeStack}
       />
     </Drawer.Navigator>
   );
