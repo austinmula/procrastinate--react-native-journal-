@@ -35,7 +35,7 @@ const filterItems = [
 
 const journalEntries = [
   {
-    id: 1,
+    id: '1',
     category: 'travel',
     title: 'Exploring the Alps',
     description:
@@ -43,7 +43,7 @@ const journalEntries = [
     date: '2024-01-15',
   },
   {
-    id: 2,
+    id: '2',
     category: 'personal',
     title: 'A Day with Family',
     description:
@@ -51,7 +51,7 @@ const journalEntries = [
     date: '2024-02-10',
   },
   {
-    id: 3,
+    id: '3',
     category: 'work',
     title: 'Project Milestone',
     description:
@@ -59,7 +59,7 @@ const journalEntries = [
     date: '2024-03-05',
   },
   {
-    id: 4,
+    id: '4',
     category: 'travel',
     title: 'Beach Getaway',
     description:
@@ -67,7 +67,7 @@ const journalEntries = [
     date: '2024-04-18',
   },
   {
-    id: 5,
+    id: '5',
     category: 'personal',
     title: 'Meditation Retreat',
     description:
@@ -75,7 +75,7 @@ const journalEntries = [
     date: '2024-05-23',
   },
   {
-    id: 6,
+    id: '6',
     category: 'work',
     title: 'Successful Presentation',
     description:
@@ -83,15 +83,15 @@ const journalEntries = [
     date: '2024-06-12',
   },
   {
-    id: 7,
-    category: 'travel',
+    id: '7',
+    category: 'other',
     title: 'City Adventure',
     description:
       'Explored the vibrant city life of Tokyo. The food, culture, and energy of the city were unforgettable.',
     date: '2024-07-01',
   },
   {
-    id: 8,
+    id: '8',
     category: 'personal',
     title: 'Birthday Celebration',
     description:
@@ -99,7 +99,7 @@ const journalEntries = [
     date: '2024-07-19',
   },
   {
-    id: 9,
+    id: '9',
     category: 'work',
     title: 'Team Building',
     description:
@@ -107,8 +107,8 @@ const journalEntries = [
     date: '2024-08-05',
   },
   {
-    id: 10,
-    category: 'travel',
+    id: '10',
+    category: 'other',
     title: 'Mountain Escape',
     description:
       'Spent the weekend in a cozy cabin in the mountains. The tranquility and fresh air were a perfect escape from city life.',
@@ -127,6 +127,7 @@ type JournalProps = {
 
 const HomeScreen = ({navigation}: HomeScreenProps) => {
   const [dateToday, setDateToday] = useState<Date>(new Date());
+  const [selectedCategory, setSelectedCategory] = useState<string>('All');
 
   const Item = ({title}: ItemProps) => (
     <Chip
@@ -142,25 +143,25 @@ const HomeScreen = ({navigation}: HomeScreenProps) => {
         paddingBottom: 5,
         backgroundColor: '#505168',
       }}
-      onPress={() => console.log('Pressed')}>
+      onPress={() => setSelectedCategory(title)}>
       {title}
     </Chip>
   );
 
   const Entry = ({title, category, description, date}: JournalProps) => (
-    <Card
-      style={{
-        marginLeft: 10,
-        paddingLeft: 12,
-        paddingRight: 12,
-        borderRadius: 20,
-        paddingTop: 5,
-        paddingBottom: 5,
-        backgroundColor: '#505168',
-      }}
-      onPress={() => console.log('Pressed')}>
-      {title}
+    <Card style={{margin: 10}}>
+      <Card.Title title="" subtitle={category} />
+      <Card.Content>
+        <Text variant="titleLarge">{title}</Text>
+        <Text variant="bodyMedium">{description}</Text>
+      </Card.Content>
     </Card>
+  );
+
+  const filteredEntries = journalEntries.filter(entry =>
+    selectedCategory === 'All'
+      ? true
+      : entry.category.toLowerCase() === selectedCategory.toLowerCase(),
   );
 
   const monthInText = dateToday.toLocaleString('default', {month: 'long'});
@@ -196,13 +197,18 @@ const HomeScreen = ({navigation}: HomeScreenProps) => {
           />
         </View>
         {/* <Text style={{fontSize: 30, fontWeight: '700'}}>Home</Text> */}
-      </View>
-
-      <View style={styles.bodyContainer}>
-        <View>
+        <View style={styles.entryContainer}>
           <FlatList
-            data={journalEntries}
-            renderItem={({item}) => <Item title={item.title} />}
+            data={filteredEntries}
+            showsVerticalScrollIndicator={false}
+            renderItem={({item}) => (
+              <Entry
+                category={item.category}
+                description={item.description}
+                title={item.title}
+                date={item.date}
+              />
+            )}
             keyExtractor={item => item.id}
             showsHorizontalScrollIndicator={false}
           />
@@ -227,6 +233,9 @@ const styles = StyleSheet.create({
     flex: 1,
     paddingTop: height * 0.04,
     paddingLeft: width * 0.01,
+  },
+  entryContainer: {
+    paddingTop: height * 0.04,
   },
   mainContainer: {
     flex: 1,
