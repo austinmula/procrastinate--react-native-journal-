@@ -36,78 +36,94 @@ const filterItems = [
 const journalEntries = [
   {
     id: 1,
-    category: "travel",
-    title: "Exploring the Alps",
-    description: "Today, I hiked through the breathtaking Alps. The views were incredible, and I felt completely at peace with nature.",
-    date: "2024-01-15"
+    category: 'travel',
+    title: 'Exploring the Alps',
+    description:
+      'Today, I hiked through the breathtaking Alps. The views were incredible, and I felt completely at peace with nature.',
+    date: '2024-01-15',
   },
   {
     id: 2,
-    category: "personal",
-    title: "A Day with Family",
-    description: "Spent the entire day with family, sharing stories and laughter. It was a reminder of how important they are to me.",
-    date: "2024-02-10"
+    category: 'personal',
+    title: 'A Day with Family',
+    description:
+      'Spent the entire day with family, sharing stories and laughter. It was a reminder of how important they are to me.',
+    date: '2024-02-10',
   },
   {
     id: 3,
-    category: "work",
-    title: "Project Milestone",
-    description: "We reached a significant milestone in our project today. The team worked tirelessly, and the results were worth it.",
-    date: "2024-03-05"
+    category: 'work',
+    title: 'Project Milestone',
+    description:
+      'We reached a significant milestone in our project today. The team worked tirelessly, and the results were worth it.',
+    date: '2024-03-05',
   },
   {
     id: 4,
-    category: "travel",
-    title: "Beach Getaway",
-    description: "Relaxed on the sandy beaches of Hawaii. The sunset was stunning, and I felt rejuvenated by the ocean breeze.",
-    date: "2024-04-18"
+    category: 'travel',
+    title: 'Beach Getaway',
+    description:
+      'Relaxed on the sandy beaches of Hawaii. The sunset was stunning, and I felt rejuvenated by the ocean breeze.',
+    date: '2024-04-18',
   },
   {
     id: 5,
-    category: "personal",
-    title: "Meditation Retreat",
-    description: "Attended a meditation retreat this weekend. It helped me reconnect with myself and find inner peace.",
-    date: "2024-05-23"
+    category: 'personal',
+    title: 'Meditation Retreat',
+    description:
+      'Attended a meditation retreat this weekend. It helped me reconnect with myself and find inner peace.',
+    date: '2024-05-23',
   },
   {
     id: 6,
-    category: "work",
-    title: "Successful Presentation",
-    description: "Gave a presentation to the board today. It went well, and they were impressed with our progress.",
-    date: "2024-06-12"
+    category: 'work',
+    title: 'Successful Presentation',
+    description:
+      'Gave a presentation to the board today. It went well, and they were impressed with our progress.',
+    date: '2024-06-12',
   },
   {
     id: 7,
-    category: "travel",
-    title: "City Adventure",
-    description: "Explored the vibrant city life of Tokyo. The food, culture, and energy of the city were unforgettable.",
-    date: "2024-07-01"
+    category: 'travel',
+    title: 'City Adventure',
+    description:
+      'Explored the vibrant city life of Tokyo. The food, culture, and energy of the city were unforgettable.',
+    date: '2024-07-01',
   },
   {
     id: 8,
-    category: "personal",
-    title: "Birthday Celebration",
-    description: "Celebrated my birthday with close friends. It was a joyful evening filled with laughter and memorable moments.",
-    date: "2024-07-19"
+    category: 'personal',
+    title: 'Birthday Celebration',
+    description:
+      'Celebrated my birthday with close friends. It was a joyful evening filled with laughter and memorable moments.',
+    date: '2024-07-19',
   },
   {
     id: 9,
-    category: "work",
-    title: "Team Building",
-    description: "Participated in a team-building event today. It was great to bond with colleagues outside of the usual work environment.",
-    date: "2024-08-05"
+    category: 'work',
+    title: 'Team Building',
+    description:
+      'Participated in a team-building event today. It was great to bond with colleagues outside of the usual work environment.',
+    date: '2024-08-05',
   },
   {
     id: 10,
-    category: "travel",
-    title: "Mountain Escape",
-    description: "Spent the weekend in a cozy cabin in the mountains. The tranquility and fresh air were a perfect escape from city life.",
-    date: "2024-08-25"
-  }
+    category: 'travel',
+    title: 'Mountain Escape',
+    description:
+      'Spent the weekend in a cozy cabin in the mountains. The tranquility and fresh air were a perfect escape from city life.',
+    date: '2024-08-25',
+  },
 ];
 
-
 type ItemProps = {title: string};
+
+type JournalProps = {
+  title: string;
+  category: string;
+  date: string;
+  description: string;
+};
 
 const HomeScreen = ({navigation}: HomeScreenProps) => {
   const [dateToday, setDateToday] = useState<Date>(new Date());
@@ -129,6 +145,22 @@ const HomeScreen = ({navigation}: HomeScreenProps) => {
       onPress={() => console.log('Pressed')}>
       {title}
     </Chip>
+  );
+
+  const Entry = ({title, category, description, date}: JournalProps) => (
+    <Card
+      style={{
+        marginLeft: 10,
+        paddingLeft: 12,
+        paddingRight: 12,
+        borderRadius: 20,
+        paddingTop: 5,
+        paddingBottom: 5,
+        backgroundColor: '#505168',
+      }}
+      onPress={() => console.log('Pressed')}>
+      {title}
+    </Card>
   );
 
   const monthInText = dateToday.toLocaleString('default', {month: 'long'});
@@ -165,6 +197,18 @@ const HomeScreen = ({navigation}: HomeScreenProps) => {
         </View>
         {/* <Text style={{fontSize: 30, fontWeight: '700'}}>Home</Text> */}
       </View>
+
+      <View style={styles.bodyContainer}>
+        <View>
+          <FlatList
+            data={journalEntries}
+            renderItem={({item}) => <Item title={item.title} />}
+            keyExtractor={item => item.id}
+            showsHorizontalScrollIndicator={false}
+          />
+        </View>
+      </View>
+
       <FAB
         icon="plus"
         style={styles.fab}
