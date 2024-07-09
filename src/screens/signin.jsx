@@ -4,8 +4,13 @@ import {Button, Surface, TextInput} from 'react-native-paper';
 import {AuthContext} from '../context/AuthContext';
 
 export default function SignInScreen({navigation}) {
-  const {login} = useContext(AuthContext);
-  const [text, setText] = useState('');
+  const {login, isLoading, } = useContext(AuthContext);
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+
+  const signIn = () => {
+    login({email: username, password});
+  };
   function goToSignUp() {
     navigation.navigate('signup');
   }
@@ -20,20 +25,22 @@ export default function SignInScreen({navigation}) {
         </View>
         <TextInput
           label="Username or Email"
-          value={text}
-          onChangeText={text => setText(text)}
+          value={username}
+          onChangeText={text => setUsername(text)}
           mode="outlined"
           left={<TextInput.Icon icon="account" />}
         />
         <TextInput
           label="Password"
+          value={password}
+          onChangeText={text => setPassword(text)}
           secureTextEntry
           mode="outlined"
           right={<TextInput.Icon icon="eye" />}
           left={<TextInput.Icon icon="lock" />}
         />
 
-        <Button buttonColor="#505168" mode="contained" onPress={login}>
+        <Button buttonColor="#505168" mode="contained" onPress={signIn}>
           Sign In
         </Button>
 

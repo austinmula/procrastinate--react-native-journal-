@@ -1,18 +1,48 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import React, {createContext, useEffect, useState} from 'react';
 import {Alert} from 'react-native';
+import {apiClient} from '../hooks/useApi';
 
 export const AuthContext = createContext();
 
 export const AuthProvider = ({children}) => {
   const [isLoading, setIsLoading] = useState(false);
   const [userToken, setUserToken] = useState(null);
+  const [error, setError] = useState(null);
 
-  const login = () => {
+  const login = data => {
     setIsLoading(true);
-    setUserToken('wreqweeeuiwtwiterer');
-    AsyncStorage.setItem('userToken', 'wreqweeeuiwtwiterer');
-    setIsLoading(false);
+    loginuser(data);
+  };
+
+  const loginuser = async () => {
+    try {
+      const result = await apiClient.post('/user/login');
+      if (result.data) {
+        setUserToken('wreqweeeuiwtwiterer');
+        AsyncStorage.setItem('userToken', 'wreqweeeuiwtwiterer');
+        setIsLoading(false);
+      }
+    } catch (error) {
+      setError(error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const registeruser = async () => {
+    try {
+      const result = await apiClient.post('/user/signup');
+      if (result.data) {
+        setUserToken('wreqweeeuiwtwiterer');
+        AsyncStorage.setItem('userToken', 'wreqweeeuiwtwiterer');
+        setIsLoading(false);
+      }
+    } catch (error) {
+      setError(error);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   const logout = () => {
@@ -38,7 +68,7 @@ export const AuthProvider = ({children}) => {
   }, []);
 
   return (
-    <AuthContext.Provider value={{login, logout, isLoading, userToken}}>
+    <AuthContext.Provider value={{login, logout, isLoading, userToken, error}}>
       {children}
     </AuthContext.Provider>
   );
