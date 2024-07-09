@@ -1,6 +1,6 @@
-import {useContext, useState} from 'react';
+import {useContext, useEffect, useState} from 'react';
 import {StyleSheet, Text, View} from 'react-native';
-import {Button, Surface, TextInput} from 'react-native-paper';
+import {Button, Snackbar, Surface, TextInput} from 'react-native-paper';
 import {AuthContext} from '../context/AuthContext';
 
 export default function SignUpScreen({navigation}) {
@@ -10,7 +10,7 @@ export default function SignUpScreen({navigation}) {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
-  const [visible, setVisible] = React.useState(false);
+  const [visible, setVisible] = useState(false);
   useEffect(() => {
     if (error) {
       setVisible(true);
@@ -70,7 +70,7 @@ export default function SignUpScreen({navigation}) {
         />
 
         <Button
-          loading={loading}
+          loading={isLoading}
           disabled={password !== confirmPassword}
           buttonColor="#505168"
           mode="contained"
