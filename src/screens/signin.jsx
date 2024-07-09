@@ -15,7 +15,9 @@ export default function SignInScreen({navigation}) {
   }, [error]);
 
   const signIn = () => {
-    login({email: username, password});
+    if (username && password) {
+      login({email: username, password});
+    }
   };
 
   function goToSignUp() {

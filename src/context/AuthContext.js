@@ -12,31 +12,34 @@ export const AuthProvider = ({children}) => {
 
   const login = data => {
     setIsLoading(true);
+    console.log(data);
     loginuser(data);
   };
 
-  const loginuser = async () => {
+  const loginuser = async data => {
     try {
-      const result = await apiClient.post('/user/login');
+      const result = await apiClient.post('/users/login', data);
+      console.log(result.data);
       if (result.data) {
-        setUserToken('wreqweeeuiwtwiterer');
-        AsyncStorage.setItem('userToken', 'wreqweeeuiwtwiterer');
-        setIsLoading(false);
+        setUserToken(result.data.token);
+        AsyncStorage.setItem('userToken', result.data.token);
+        // setIsLoading(false);
       }
     } catch (error) {
-      setError(error);
+      console.log(error);
+      setError('error occured while logging you in');
     } finally {
       setIsLoading(false);
     }
   };
 
-  const registeruser = async () => {
+  const registeruser = async (data) => {
     try {
-      const result = await apiClient.post('/user/signup');
+      const result = await apiClient.post('/users/signup', data);
       if (result.data) {
-        setUserToken('wreqweeeuiwtwiterer');
-        AsyncStorage.setItem('userToken', 'wreqweeeuiwtwiterer');
-        setIsLoading(false);
+        setUserToken(result.data.token);
+        AsyncStorage.setItem('userToken', result.data.token);
+        // setIsLoading(false);
       }
     } catch (error) {
       setError(error);
@@ -68,7 +71,8 @@ export const AuthProvider = ({children}) => {
   }, []);
 
   return (
-    <AuthContext.Provider value={{login, logout, isLoading, userToken, error}}>
+    <AuthContext.Provider
+      value={{login, logout, isLoading, userToken, error, registeruser}}>
       {children}
     </AuthContext.Provider>
   );
