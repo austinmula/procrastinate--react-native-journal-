@@ -1,19 +1,29 @@
-import {useContext, useState} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import {StyleSheet, Text, View} from 'react-native';
-import {Button, Surface, TextInput} from 'react-native-paper';
+import {Button, Snackbar, Surface, TextInput} from 'react-native-paper';
 import {AuthContext} from '../context/AuthContext';
 
 export default function SignInScreen({navigation}) {
-  const {login, isLoading, } = useContext(AuthContext);
+  const {login, isLoading, error} = useContext(AuthContext);
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const [visible, setVisible] = React.useState(false);
+  useEffect(() => {
+    if (error) {
+      setVisible(true);
+    }
+  }, [error]);
 
   const signIn = () => {
     login({email: username, password});
   };
+
   function goToSignUp() {
     navigation.navigate('signup');
   }
+
+  const onDismissSnackBar = () => setVisible(false);
+
   return (
     <View style={styles.mainContainer}>
       <Surface style={styles.surface} elevation={1}>
@@ -40,7 +50,11 @@ export default function SignInScreen({navigation}) {
           left={<TextInput.Icon icon="lock" />}
         />
 
-        <Button buttonColor="#505168" mode="contained" onPress={signIn}>
+        <Button
+          loading={isLoading}
+          buttonColor="#505168"
+          mode="contained"
+          onPress={signIn}>
           Sign In
         </Button>
 
@@ -53,6 +67,9 @@ export default function SignInScreen({navigation}) {
           </Text>
         </View>
       </Surface>
+      <Snackbar onDismiss={onDismissSnackBar} visible={visible} duration={3000}>
+        {error}
+      </Snackbar>
     </View>
   );
 }
