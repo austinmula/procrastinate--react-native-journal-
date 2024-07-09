@@ -6,7 +6,7 @@ import {
   TextInput,
 } from 'react-native-paper';
 import variables from '../../../utils/variables/colors';
-import {useState} from 'react';
+import {useEffect, useState} from 'react';
 import useApi, {apiClient} from '../../../hooks/useApi';
 import {StackActions} from '@react-navigation/native';
 
@@ -14,16 +14,26 @@ const popAction = StackActions.pop(1);
 
 const {View, StyleSheet, KeyboardAvoidingView, Alert} = require('react-native');
 
-const CreateJournalEntry = ({navigation}) => {
-  const [title, setTitle] = useState('');
-  const [content, setContent] = useState('');
-  const [value, setValue] = useState('');
+const CreateJournalEntry = ({route, navigation}) => {
+  const {id, journal} = route.params || {};
+
+  const [title, setTitle] = useState(journal?.title || '');
+  const [content, setContent] = useState(journal?.description || '');
+  const [value, setValue] = useState(journal?.category || '');
   const {
     response: categories,
     loading: categoriesLoading,
     error: categoriesError,
     refetch: refetchSecond,
   } = useApi('GET', '/category');
+
+  useEffect(() => {
+    if (id && journal) {
+      setTitle(journal.title);
+      setContent(journal.description);
+      setValue(journal.category);
+    }
+  }, [id, journal]);
 
   if (categoriesLoading) {
     return (
@@ -42,12 +52,20 @@ const CreateJournalEntry = ({navigation}) => {
       tags: ['movies'],
     };
 
-    console.log(payload);
-
     try {
-      const response = await apiClient.post('/journal/create', payload);
-      if (response.data) {
-        navigation.dispatch(popAction, {newDataAdded: true});
+      if (id) {
+        const response = await apiClient.patch(
+          `/journal/update/${id}`,
+          payload,
+        );
+        if (response.data) {
+          navigation.dispatch(popAction, {updatedData: true});
+        }
+      } else {
+        const response = await apiClient.post('/journal/create', payload);
+        if (response.data) {
+          navigation.dispatch(popAction, {newDataAdded: true});
+        }
       }
     } catch (error) {
       console.log(error);
@@ -60,7 +78,7 @@ const CreateJournalEntry = ({navigation}) => {
       contentContainerStyle={{flexGrow: 1}}
       style={styles.mainContainer}>
       <Text variant="titleLarge" style={styles.headerText}>
-        Create New Entry
+        {id ? 'Edit Entry' : 'Create New Entry'}
       </Text>
       <View style={styles.bodyContainer}>
         <TextInput
@@ -103,7 +121,7 @@ const CreateJournalEntry = ({navigation}) => {
           mode="contained"
           style={{marginTop: 20, marginBottom: 10}}
           onPress={submitForm}>
-          Submit Entry
+          {id ? 'Update Entry' : 'Submit Entry'}
         </Button>
       </View>
     </KeyboardAvoidingView>

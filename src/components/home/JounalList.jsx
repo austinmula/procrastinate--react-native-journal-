@@ -5,7 +5,7 @@ import {apiClient} from '../../hooks/useApi';
 
 const {height, width} = Dimensions.get('window');
 
-const JournalList = ({filteredEntries, refetchJournals}) => {
+const JournalList = ({navigation, filteredEntries, refetchJournals}) => {
   const [visible, setVisible] = React.useState(false);
   const [currentId, setCurrentId] = React.useState(null);
 
@@ -14,8 +14,11 @@ const JournalList = ({filteredEntries, refetchJournals}) => {
     setVisible(true);
   };
 
-  const goToEdit = () => {
-    
+  const goToEdit = (id, journal) => {
+    navigation.navigate('createEntry', {
+      id,
+      journal,
+    });
   };
 
   const deleteJournalEntry = async () => {
@@ -35,7 +38,15 @@ const JournalList = ({filteredEntries, refetchJournals}) => {
 
   const hideDialog = () => setVisible(false);
 
-  const Entry = ({title, category, description, date, showDialog, id}) => (
+  const Entry = ({
+    title,
+    category,
+    categoryId,
+    description,
+    date,
+    showDialog,
+    id,
+  }) => (
     <Card style={{margin: 10}}>
       <Card.Title title="" subtitle={category} />
       <Card.Content>
@@ -43,7 +54,12 @@ const JournalList = ({filteredEntries, refetchJournals}) => {
         <Text variant="bodyMedium">{description}</Text>
       </Card.Content>
       <Card.Actions style={{marginTop: 20}}>
-        <Button>Edit</Button>
+        <Button
+          onPress={() =>
+            goToEdit(id, {title, description, category: categoryId})
+          }>
+          Edit
+        </Button>
         <Button buttonColor="#c73218" onPress={() => showDialog(id)}>
           Delete
         </Button>
@@ -74,6 +90,7 @@ const JournalList = ({filteredEntries, refetchJournals}) => {
         renderItem={({item}) => (
           <Entry
             category={item.category.name}
+            categoryId={item.category._id}
             description={item.content}
             title={item.title}
             date={item.date}

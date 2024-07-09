@@ -132,7 +132,7 @@ const HomeScreen = ({navigation}: HomeScreenProps) => {
             />
           </View>
 
-          <JournalList filteredEntries={filteredEntries} refetchJournals={refetchJournals}/>
+          <JournalList navigation={navigation} filteredEntries={filteredEntries} refetchJournals={refetchJournals}/>
         </View>
       )}
 
