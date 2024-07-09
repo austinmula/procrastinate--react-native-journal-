@@ -1,5 +1,5 @@
 // useApi.ts
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import axios, { AxiosRequestConfig, AxiosResponse } from 'axios';
 
 // Base configuration for Axios
@@ -31,7 +31,7 @@ const useApi = <T>(
   const [loading, setLoading] = useState<boolean>(autoFetch);
   const [error, setError] = useState<any>(null);
 
-  const fetchData = async () => {
+  const fetchData = useCallback(async () => {
     setLoading(true);
     setError(null);
     try {
@@ -42,18 +42,21 @@ const useApi = <T>(
         params,
       });
       setResponse(result.data);
-    } catch (err:any) {
+      console.log(result.data)
+    } catch (err: any) {
       setError(err.response ? err.response.data : new Error('Network error'));
     } finally {
       setLoading(false);
     }
-  };
+  }, []);
+
+  //method, url, data, params
 
   useEffect(() => {
     if (autoFetch) {
       fetchData();
     }
-  }, [method, url, data, params, autoFetch]);
+  }, [fetchData, autoFetch]);
 
   return { response, loading, error, refetch: fetchData };
 };
