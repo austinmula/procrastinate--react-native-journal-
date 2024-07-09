@@ -3,7 +3,7 @@ import { useState, useEffect, useCallback } from 'react';
 import axios, { AxiosRequestConfig, AxiosResponse } from 'axios';
 
 // Base configuration for Axios
-const apiClient = axios.create({
+export const apiClient = axios.create({
   baseURL: 'https://journal-api-8xkw.onrender.com', 
   timeout: 10000, 
   headers: {
@@ -48,7 +48,7 @@ const useApi = <T>(
     } finally {
       setLoading(false);
     }
-  }, []);
+  }, [method,url, data]);
 
   //method, url, data, params
 
