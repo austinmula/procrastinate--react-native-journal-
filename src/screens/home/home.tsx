@@ -1,8 +1,18 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {StyleSheet, StatusBar, View, Dimensions, FlatList} from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import variables from '../../utils/variables/colors';
-import {Button, Card, Chip, FAB, IconButton, Text} from 'react-native-paper';
+import {
+  ActivityIndicator,
+  Button,
+  Card,
+  Chip,
+  FAB,
+  IconButton,
+  Text,
+} from 'react-native-paper';
+import useApi from '../../hooks/useApi';
+import JournalList from '../../components/home/JounalList';
 
 interface HomeScreenProps {
   navigation: any;
@@ -10,7 +20,7 @@ interface HomeScreenProps {
 
 const {height, width} = Dimensions.get('window');
 
-const filterItems = [
+const filterItems5 = [
   {
     id: '1',
     title: 'All',
@@ -33,7 +43,7 @@ const filterItems = [
   },
 ];
 
-const journalEntries = [
+const journalEntries4 = [
   {
     id: '1',
     category: 'travel',
@@ -118,16 +128,46 @@ const journalEntries = [
 
 type ItemProps = {title: string};
 
-type JournalProps = {
+interface JournalApiResponse {
+  id: string;
   title: string;
   category: string;
   date: string;
   description: string;
-};
+}
+
+interface SecondApiResponse {
+  id: string;
+  title: string;
+  category: string;
+  description: string;
+}
 
 const HomeScreen = ({navigation}: HomeScreenProps) => {
   const [dateToday, setDateToday] = useState<Date>(new Date());
   const [selectedCategory, setSelectedCategory] = useState<string>('All');
+
+  const {
+    response: journalEntries,
+    loading: journalsLoading,
+    error: firstError,
+    refetch: refetchFirst,
+  } = useApi<JournalApiResponse>('GET', '/journal');
+
+  const {
+    response: filterItems,
+    loading: categoriesLoading,
+    error: categoriesError,
+    refetch: refetchSecond,
+  } = useApi<SecondApiResponse>('GET', '/category');
+
+  if (journalsLoading || categoriesLoading) {
+    return (
+      <View style={styles.mainContainer}>
+        <ActivityIndicator />
+      </View>
+    );
+  }
 
   const Item = ({title}: ItemProps) => (
     <Chip
@@ -148,20 +188,10 @@ const HomeScreen = ({navigation}: HomeScreenProps) => {
     </Chip>
   );
 
-  const Entry = ({title, category, description, date}: JournalProps) => (
-    <Card style={{margin: 10}}>
-      <Card.Title title="" subtitle={category} />
-      <Card.Content>
-        <Text variant="titleLarge">{title}</Text>
-        <Text variant="bodyMedium">{description}</Text>
-      </Card.Content>
-    </Card>
-  );
-
   const filteredEntries = journalEntries.filter(entry =>
     selectedCategory === 'All'
       ? true
-      : entry.category.toLowerCase() === selectedCategory.toLowerCase(),
+      : entry.category.name.toLowerCase() === selectedCategory.toLowerCase(),
   );
 
   const monthInText = dateToday.toLocaleString('default', {month: 'long'});
@@ -186,34 +216,23 @@ const HomeScreen = ({navigation}: HomeScreenProps) => {
           </View>
         </View>
       </View>
-      <View style={styles.bodyContainer}>
-        <View>
-          <FlatList
-            horizontal
-            data={filterItems}
-            renderItem={({item}) => <Item title={item.title} />}
-            keyExtractor={item => item.id}
-            showsHorizontalScrollIndicator={false}
-          />
+      {journalsLoading || categoriesLoading ? (
+        <ActivityIndicator />
+      ) : (
+        <View style={styles.bodyContainer}>
+          <View>
+            <FlatList
+              horizontal
+              data={Array.isArray(filterItems) ? filterItems : []}
+              renderItem={({item}) => <Item title={item.name} />}
+              keyExtractor={item => item._id}
+              showsHorizontalScrollIndicator={false}
+            />
+          </View>
+
+          <JournalList filteredEntries={filteredEntries} />
         </View>
-        {/* <Text style={{fontSize: 30, fontWeight: '700'}}>Home</Text> */}
-        <View style={styles.entryContainer}>
-          <FlatList
-            data={filteredEntries}
-            showsVerticalScrollIndicator={false}
-            renderItem={({item}) => (
-              <Entry
-                category={item.category}
-                description={item.description}
-                title={item.title}
-                date={item.date}
-              />
-            )}
-            keyExtractor={item => item.id}
-            showsHorizontalScrollIndicator={false}
-          />
-        </View>
-      </View>
+      )}
 
       <FAB
         icon="plus"
