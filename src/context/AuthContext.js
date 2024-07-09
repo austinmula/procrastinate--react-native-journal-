@@ -1,18 +1,51 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import React, {createContext, useEffect, useState} from 'react';
 import {Alert} from 'react-native';
+import {apiClient} from '../hooks/useApi';
 
 export const AuthContext = createContext();
 
 export const AuthProvider = ({children}) => {
   const [isLoading, setIsLoading] = useState(false);
   const [userToken, setUserToken] = useState(null);
+  const [error, setError] = useState(null);
 
-  const login = () => {
+  const login = data => {
     setIsLoading(true);
-    setUserToken('wreqweeeuiwtwiterer');
-    AsyncStorage.setItem('userToken', 'wreqweeeuiwtwiterer');
-    setIsLoading(false);
+    console.log(data);
+    loginuser(data);
+  };
+
+  const loginuser = async data => {
+    try {
+      const result = await apiClient.post('/users/login', data);
+      console.log(result.data);
+      if (result.data) {
+        setUserToken(result.data.token);
+        AsyncStorage.setItem('userToken', result.data.token);
+        // setIsLoading(false);
+      }
+    } catch (error) {
+      console.log(error);
+      setError('error occured while logging you in');
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const registeruser = async (data) => {
+    try {
+      const result = await apiClient.post('/users/signup', data);
+      if (result.data) {
+        setUserToken(result.data.token);
+        AsyncStorage.setItem('userToken', result.data.token);
+        // setIsLoading(false);
+      }
+    } catch (error) {
+      setError(error);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   const logout = () => {
@@ -38,7 +71,8 @@ export const AuthProvider = ({children}) => {
   }, []);
 
   return (
-    <AuthContext.Provider value={{login, logout, isLoading, userToken}}>
+    <AuthContext.Provider
+      value={{login, logout, isLoading, userToken, error, registeruser}}>
       {children}
     </AuthContext.Provider>
   );

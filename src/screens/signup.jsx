@@ -1,12 +1,32 @@
-import {useState} from 'react';
+import {useContext, useEffect, useState} from 'react';
 import {StyleSheet, Text, View} from 'react-native';
-import {Button, Surface, TextInput} from 'react-native-paper';
+import {Button, Snackbar, Surface, TextInput} from 'react-native-paper';
+import {AuthContext} from '../context/AuthContext';
 
 export default function SignUpScreen({navigation}) {
-  const [text, setText] = useState('');
+  const {registeruser, isLoading, error} = useContext(AuthContext);
+
+  const [email, setEmail] = useState('');
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
+  const [visible, setVisible] = useState(false);
+  useEffect(() => {
+    if (error) {
+      setVisible(true);
+    }
+  }, [error]);
+  const register = () => {
+    if (username && password && email) {
+      registeruser({email, username, password});
+    }
+  };
   function goToSignIn() {
     navigation.navigate('signin');
   }
+
+  const onDismissSnackBar = () => setVisible(false);
+
   return (
     <View style={styles.mainContainer}>
       <Surface style={styles.surface} elevation={1}>
@@ -18,20 +38,22 @@ export default function SignUpScreen({navigation}) {
         </View>
         <TextInput
           label="Full Name"
-          value={text}
-          onChangeText={text => setText(text)}
+          value={username}
+          onChangeText={text => setUsername(text)}
           mode="outlined"
           left={<TextInput.Icon icon="account" />}
         />
         <TextInput
           label="Email Address"
-          value={text}
-          onChangeText={text => setText(text)}
+          value={email}
+          onChangeText={text => setEmail(text)}
           mode="outlined"
           left={<TextInput.Icon icon="email" />}
         />
         <TextInput
           label="Password"
+          value={password}
+          onChangeText={text => setPassword(text)}
           secureTextEntry
           mode="outlined"
           right={<TextInput.Icon icon="eye" />}
@@ -39,6 +61,8 @@ export default function SignUpScreen({navigation}) {
         />
         <TextInput
           label="Confirm Password"
+          value={confirmPassword}
+          onChangeText={text => setConfirmPassword(text)}
           secureTextEntry
           mode="outlined"
           right={<TextInput.Icon icon="eye" />}
@@ -46,9 +70,11 @@ export default function SignUpScreen({navigation}) {
         />
 
         <Button
+          loading={isLoading}
+          disabled={password !== confirmPassword}
           buttonColor="#505168"
           mode="contained"
-          onPress={() => console.log('Pressed')}>
+          onPress={register}>
           Create Account
         </Button>
 
@@ -61,6 +87,9 @@ export default function SignUpScreen({navigation}) {
           </Text>
         </View>
       </Surface>
+      <Snackbar onDismiss={onDismissSnackBar} visible={visible} duration={3000}>
+        {error}
+      </Snackbar>
     </View>
   );
 }
