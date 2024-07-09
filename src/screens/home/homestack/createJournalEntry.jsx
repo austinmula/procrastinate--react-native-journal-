@@ -1,12 +1,60 @@
-import {Button, RadioButton, Text, TextInput} from 'react-native-paper';
+import {
+  ActivityIndicator,
+  Button,
+  RadioButton,
+  Text,
+  TextInput,
+} from 'react-native-paper';
 import variables from '../../../utils/variables/colors';
 import {useState} from 'react';
+import useApi, {apiClient} from '../../../hooks/useApi';
+import {StackActions} from '@react-navigation/native';
 
-const {View, StyleSheet, KeyboardAvoidingView} = require('react-native');
+const popAction = StackActions.pop(1);
 
-const CreateJournalEntry = () => {
-  const [text, setText] = useState('');
-  const [value, setValue] = useState('personal');
+const {View, StyleSheet, KeyboardAvoidingView, Alert} = require('react-native');
+
+const CreateJournalEntry = ({navigation}) => {
+  const [title, setTitle] = useState('');
+  const [content, setContent] = useState('');
+  const [value, setValue] = useState('');
+  const {
+    response: categories,
+    loading: categoriesLoading,
+    error: categoriesError,
+    refetch: refetchSecond,
+  } = useApi('GET', '/category');
+
+  if (categoriesLoading) {
+    return (
+      <View style={styles.mainContainer}>
+        <ActivityIndicator />
+      </View>
+    );
+  }
+
+  const submitForm = async () => {
+    let payload = {
+      title,
+      content,
+      category: value,
+      mood: 'Excited',
+      tags: ['movies'],
+    };
+
+    console.log(payload);
+
+    try {
+      const response = await apiClient.post('/journal/create', payload);
+      if (response.data) {
+        navigation.dispatch(popAction, {newDataAdded: true});
+      }
+    } catch (error) {
+      console.log(error);
+      Alert.alert('Error. An Error occured while creating your entry');
+    }
+  };
+
   return (
     <KeyboardAvoidingView
       contentContainerStyle={{flexGrow: 1}}
@@ -14,20 +62,19 @@ const CreateJournalEntry = () => {
       <Text variant="titleLarge" style={styles.headerText}>
         Create New Entry
       </Text>
-
       <View style={styles.bodyContainer}>
         <TextInput
           label="Entry Title"
-          value={text}
-          onChangeText={text => setText(text)}
+          value={title}
+          onChangeText={text => setTitle(text)}
           mode="outlined"
           placeholder="Enter Journal Entry Title"
         />
 
         <TextInput
           label="Entry Description"
-          value={text}
-          onChangeText={text => setText(text)}
+          value={content}
+          onChangeText={text => setContent(text)}
           mode="outlined"
           placeholder="Enter Journal Entry Description"
           multiline
@@ -41,10 +88,13 @@ const CreateJournalEntry = () => {
           <RadioButton.Group
             onValueChange={value => setValue(value)}
             value={value}>
-            <RadioButton.Item label="Personal" value="personal" />
-            <RadioButton.Item label="Work" value="work" />
-            <RadioButton.Item label="Travel" value="travel" />
-            <RadioButton.Item label="other" value="other" />
+            {categories.map(categ => (
+              <RadioButton.Item
+                key={categ._id}
+                label={categ.name}
+                value={categ._id}
+              />
+            ))}
           </RadioButton.Group>
         </View>
 
@@ -52,7 +102,7 @@ const CreateJournalEntry = () => {
           buttonColor="#505168"
           mode="contained"
           style={{marginTop: 20, marginBottom: 10}}
-          onPress={() => console.log('yo')}>
+          onPress={submitForm}>
           Submit Entry
         </Button>
       </View>
